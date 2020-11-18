@@ -1,0 +1,16 @@
+{
+  "name": "covid-mast-app",
+  "version": "0.0.1",
+  "description": "COVID-19 Mean-Agnostic Sequential Test (MAST)",
+  "dependencies": {
+    "live-server": "^1.2.1"
+  },
+  "devDependencies": {
+    "mustache": "^4.0.1"
+  },
+  "scripts": {
+    "start": "node node_modules/live-server/live-server.js --host=127.0.0.1",
+    "test": ""
+  },
+  "author": ""
+}

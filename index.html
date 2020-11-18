@@ -1,0 +1,2878 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>MAST: COVID-19 pandemic onset test</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css">
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="reveal.js/dist/theme/league.css" id="theme">
+    <link rel="stylesheet" href="flag-icon-css/css/flag-icon.min.css">
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" id="highlight-theme">
+    <!-- <link rel="stylesheet" href="reveal.js/plugin/highlight/zenburn.css"> -->
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+
+    <script src="reveal.js-plugins/menu/menu.js"></script>
+    
+    <!-- moment.js (required by chart.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+
+    <!-- chart.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script> -->
+    <script src="reveal.js-plugins/chart/Chart.min.js"></script>
+    <script src="reveal.js-plugins/chart/plugin.js"></script>
+
+    <!-- chhart.js pan/zoom -->
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
+
+    <!-- ribbon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
+
+    <style>
+        path {
+          stroke: white;
+          stroke-width: 0.25px;
+          fill: grey;
+        }
+        path.enabled {
+            /*fill: #4e79a7;*/
+            /*fill: #71e9f4;*/
+            fill: #53ADB5;
+        }
+        .svg-container {
+            display: inline-block;
+            position: relative;
+            width: 100%;
+            vertical-align: top;
+            overflow: hidden;
+        }
+        .svg-content {
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .flag-icon-squared {
+          border-radius: 50%;
+        }
+        .flag-icon-smaller {
+          width: 1em;
+        }
+        .github-fork-ribbon::before{
+          /* gray */
+          background-color: #6d6d6d;
+          
+          /* red */
+          /*background-color: #aa0000; */
+
+          /* orange */
+          /*background-color: #ff9900; */
+
+          /* green */
+          /*background-color: #007200;*/
+        }
+    </style>
+</head>
+<body>
+    <a class="github-fork-ribbon" href="https://arxiv.org" data-ribbon="Read the paper on arXiv" title="Read the paper on arXiv">Read the paper on arXiv</a>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <!-- <div class="fig-container" data-file="worldmap.html"></div> -->
+                <h3 style="margin-bottom:0px;">COVID-19 Pandemic Onset Test</h3>
+                <h4>MAST: Mean-Agnostic Sequential Test</h4>
+                <div id="worldmap" class="svg-container"></svg>
+            </section>
+            <section id="albania">
+                <section>
+                    <h3><span class="flag-icon flag-icon-al flag-icon-smaller"></span> Albania</h3>
+                    <h4>Quickest detection</h4>
+                    <canvas data-chart="line" data-chart-src="data/test-albania.csv">
+                    <!--
+                    {
+                       "data":{
+                          "datasets":[
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(255, 13, 204)",
+                                "yAxisID":"y-axis-right"
+                             },
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(97, 191, 38)",
+                                "yAxisID":"y-axis-left"
+                             }
+                          ]
+                       },
+                       "options":{
+                          "responsive":"true",
+                          "elements":{
+                             "point":{
+                                "radius":0
+                             }
+                          },
+                          "scales":{
+                             "xAxes":[
+                                {
+                                   "type":"time",
+                                   "time":{
+                                      "unit":"month",
+                                      "parser":"YYYY-MM-DD"
+                                   }
+                                }
+                             ],
+                             "yAxes":[
+                                {
+                                   "type":"logarithmic",
+                                   "display":true,
+                                   "position":"left",
+                                   "id":"y-axis-left",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "False Alarm Risk",
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   }
+                                },
+                                {
+                                   "type":"linear",
+                                   "display":true,
+                                   "position":"right",
+                                   "id":"y-axis-right",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "Delay [days]",
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   },
+                                   "gridLines":{
+                                      "drawOnChartArea":false
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   }
+                                }
+                             ]
+                          }
+                       }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Cases">
+                    <!-- <h3><span class="flag-icon flag-icon-it flag-icon-squared"></span> Italy</h3> -->
+                    <h3><span class="flag-icon flag-icon-al flag-icon-smaller"></span> Albania</h3>
+                    <h4>COVID-19 Cases</h4>
+                    <canvas data-chart="line" data-chart-src="data/data-albania.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          },
+                          {
+                            "backgroundColor":"#b0b0b5",
+                            "borderColor":"rgba(97, 191, 38, 0)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel":{
+                                "display":true,
+                                "labelString":"Cases",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        },
+                        "plugins":{
+                          "zoom":{
+                            "pan":{
+                              "enabled":false,
+                              "mode":"xy"
+                            },
+                            "zoom":{
+                              "enabled":false,
+                              "mode":"xy",
+                              "drag":true
+                            }
+                          }
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Growth rate">
+                    <h3><span class="flag-icon flag-icon-al flag-icon-smaller"></span> Albania</h3>
+                    <h4>Case growth rate</h4>
+                    <canvas data-chart="line" data-chart-src="data/rate-albania.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(255, 13, 204)"
+                          },
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel": {
+                                "display": true,
+                                "labelString": "Growth rate",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+            </section>
+            <section id="austria">
+                <section>
+                    <h3><span class="flag-icon flag-icon-at flag-icon-smaller"></span> Austria</h3>
+                    <h4>Quickest detection</h4>
+                    <canvas data-chart="line" data-chart-src="data/test-austria.csv">
+                    <!--
+                    {
+                       "data":{
+                          "datasets":[
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(255, 13, 204)",
+                                "yAxisID":"y-axis-right"
+                             },
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(97, 191, 38)",
+                                "yAxisID":"y-axis-left"
+                             }
+                          ]
+                       },
+                       "options":{
+                          "responsive":"true",
+                          "elements":{
+                             "point":{
+                                "radius":0
+                             }
+                          },
+                          "scales":{
+                             "xAxes":[
+                                {
+                                   "type":"time",
+                                   "time":{
+                                      "unit":"month",
+                                      "parser":"YYYY-MM-DD"
+                                   }
+                                }
+                             ],
+                             "yAxes":[
+                                {
+                                   "type":"logarithmic",
+                                   "display":true,
+                                   "position":"left",
+                                   "id":"y-axis-left",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "False Alarm Risk",
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   }
+                                },
+                                {
+                                   "type":"linear",
+                                   "display":true,
+                                   "position":"right",
+                                   "id":"y-axis-right",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "Delay [days]",
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   },
+                                   "gridLines":{
+                                      "drawOnChartArea":false
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   }
+                                }
+                             ]
+                          }
+                       }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Cases">
+                    <!-- <h3><span class="flag-icon flag-icon-it flag-icon-squared"></span> Italy</h3> -->
+                    <h3><span class="flag-icon flag-icon-at flag-icon-smaller"></span> Austria</h3>
+                    <h4>COVID-19 Cases</h4>
+                    <canvas data-chart="line" data-chart-src="data/data-austria.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          },
+                          {
+                            "backgroundColor":"#b0b0b5",
+                            "borderColor":"rgba(97, 191, 38, 0)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel":{
+                                "display":true,
+                                "labelString":"Cases",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        },
+                        "plugins":{
+                          "zoom":{
+                            "pan":{
+                              "enabled":false,
+                              "mode":"xy"
+                            },
+                            "zoom":{
+                              "enabled":false,
+                              "mode":"xy",
+                              "drag":true
+                            }
+                          }
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Growth rate">
+                    <h3><span class="flag-icon flag-icon-at flag-icon-smaller"></span> Austria</h3>
+                    <h4>Case growth rate</h4>
+                    <canvas data-chart="line" data-chart-src="data/rate-austria.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(255, 13, 204)"
+                          },
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel": {
+                                "display": true,
+                                "labelString": "Growth rate",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+            </section>
+            <section id="belgium">
+                <section>
+                    <h3><span class="flag-icon flag-icon-be flag-icon-smaller"></span> Belgium</h3>
+                    <h4>Quickest detection</h4>
+                    <canvas data-chart="line" data-chart-src="data/test-belgium.csv">
+                    <!--
+                    {
+                       "data":{
+                          "datasets":[
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(255, 13, 204)",
+                                "yAxisID":"y-axis-right"
+                             },
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(97, 191, 38)",
+                                "yAxisID":"y-axis-left"
+                             }
+                          ]
+                       },
+                       "options":{
+                          "responsive":"true",
+                          "elements":{
+                             "point":{
+                                "radius":0
+                             }
+                          },
+                          "scales":{
+                             "xAxes":[
+                                {
+                                   "type":"time",
+                                   "time":{
+                                      "unit":"month",
+                                      "parser":"YYYY-MM-DD"
+                                   }
+                                }
+                             ],
+                             "yAxes":[
+                                {
+                                   "type":"logarithmic",
+                                   "display":true,
+                                   "position":"left",
+                                   "id":"y-axis-left",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "False Alarm Risk",
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   }
+                                },
+                                {
+                                   "type":"linear",
+                                   "display":true,
+                                   "position":"right",
+                                   "id":"y-axis-right",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "Delay [days]",
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   },
+                                   "gridLines":{
+                                      "drawOnChartArea":false
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   }
+                                }
+                             ]
+                          }
+                       }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Cases">
+                    <!-- <h3><span class="flag-icon flag-icon-it flag-icon-squared"></span> Italy</h3> -->
+                    <h3><span class="flag-icon flag-icon-be flag-icon-smaller"></span> Belgium</h3>
+                    <h4>COVID-19 Cases</h4>
+                    <canvas data-chart="line" data-chart-src="data/data-belgium.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          },
+                          {
+                            "backgroundColor":"#b0b0b5",
+                            "borderColor":"rgba(97, 191, 38, 0)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel":{
+                                "display":true,
+                                "labelString":"Cases",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        },
+                        "plugins":{
+                          "zoom":{
+                            "pan":{
+                              "enabled":false,
+                              "mode":"xy"
+                            },
+                            "zoom":{
+                              "enabled":false,
+                              "mode":"xy",
+                              "drag":true
+                            }
+                          }
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Growth rate">
+                    <h3><span class="flag-icon flag-icon-be flag-icon-smaller"></span> Belgium</h3>
+                    <h4>Case growth rate</h4>
+                    <canvas data-chart="line" data-chart-src="data/rate-belgium.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(255, 13, 204)"
+                          },
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel": {
+                                "display": true,
+                                "labelString": "Growth rate",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+            </section>
+            <section id="canada">
+                <section>
+                    <h3><span class="flag-icon flag-icon-ca flag-icon-smaller"></span> Canada</h3>
+                    <h4>Quickest detection</h4>
+                    <canvas data-chart="line" data-chart-src="data/test-canada.csv">
+                    <!--
+                    {
+                       "data":{
+                          "datasets":[
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(255, 13, 204)",
+                                "yAxisID":"y-axis-right"
+                             },
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(97, 191, 38)",
+                                "yAxisID":"y-axis-left"
+                             }
+                          ]
+                       },
+                       "options":{
+                          "responsive":"true",
+                          "elements":{
+                             "point":{
+                                "radius":0
+                             }
+                          },
+                          "scales":{
+                             "xAxes":[
+                                {
+                                   "type":"time",
+                                   "time":{
+                                      "unit":"month",
+                                      "parser":"YYYY-MM-DD"
+                                   }
+                                }
+                             ],
+                             "yAxes":[
+                                {
+                                   "type":"logarithmic",
+                                   "display":true,
+                                   "position":"left",
+                                   "id":"y-axis-left",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "False Alarm Risk",
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   }
+                                },
+                                {
+                                   "type":"linear",
+                                   "display":true,
+                                   "position":"right",
+                                   "id":"y-axis-right",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "Delay [days]",
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   },
+                                   "gridLines":{
+                                      "drawOnChartArea":false
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   }
+                                }
+                             ]
+                          }
+                       }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Cases">
+                    <!-- <h3><span class="flag-icon flag-icon-it flag-icon-squared"></span> Italy</h3> -->
+                    <h3><span class="flag-icon flag-icon-ca flag-icon-smaller"></span> Canada</h3>
+                    <h4>COVID-19 Cases</h4>
+                    <canvas data-chart="line" data-chart-src="data/data-canada.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          },
+                          {
+                            "backgroundColor":"#b0b0b5",
+                            "borderColor":"rgba(97, 191, 38, 0)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel":{
+                                "display":true,
+                                "labelString":"Cases",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        },
+                        "plugins":{
+                          "zoom":{
+                            "pan":{
+                              "enabled":false,
+                              "mode":"xy"
+                            },
+                            "zoom":{
+                              "enabled":false,
+                              "mode":"xy",
+                              "drag":true
+                            }
+                          }
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Growth rate">
+                    <h3><span class="flag-icon flag-icon-ca flag-icon-smaller"></span> Canada</h3>
+                    <h4>Case growth rate</h4>
+                    <canvas data-chart="line" data-chart-src="data/rate-canada.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(255, 13, 204)"
+                          },
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel": {
+                                "display": true,
+                                "labelString": "Growth rate",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+            </section>
+            <section id="france">
+                <section>
+                    <h3><span class="flag-icon flag-icon-fr flag-icon-smaller"></span> France</h3>
+                    <h4>Quickest detection</h4>
+                    <canvas data-chart="line" data-chart-src="data/test-france.csv">
+                    <!--
+                    {
+                       "data":{
+                          "datasets":[
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(255, 13, 204)",
+                                "yAxisID":"y-axis-right"
+                             },
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(97, 191, 38)",
+                                "yAxisID":"y-axis-left"
+                             }
+                          ]
+                       },
+                       "options":{
+                          "responsive":"true",
+                          "elements":{
+                             "point":{
+                                "radius":0
+                             }
+                          },
+                          "scales":{
+                             "xAxes":[
+                                {
+                                   "type":"time",
+                                   "time":{
+                                      "unit":"month",
+                                      "parser":"YYYY-MM-DD"
+                                   }
+                                }
+                             ],
+                             "yAxes":[
+                                {
+                                   "type":"logarithmic",
+                                   "display":true,
+                                   "position":"left",
+                                   "id":"y-axis-left",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "False Alarm Risk",
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   }
+                                },
+                                {
+                                   "type":"linear",
+                                   "display":true,
+                                   "position":"right",
+                                   "id":"y-axis-right",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "Delay [days]",
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   },
+                                   "gridLines":{
+                                      "drawOnChartArea":false
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   }
+                                }
+                             ]
+                          }
+                       }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Cases">
+                    <!-- <h3><span class="flag-icon flag-icon-it flag-icon-squared"></span> Italy</h3> -->
+                    <h3><span class="flag-icon flag-icon-fr flag-icon-smaller"></span> France</h3>
+                    <h4>COVID-19 Cases</h4>
+                    <canvas data-chart="line" data-chart-src="data/data-france.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          },
+                          {
+                            "backgroundColor":"#b0b0b5",
+                            "borderColor":"rgba(97, 191, 38, 0)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel":{
+                                "display":true,
+                                "labelString":"Cases",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        },
+                        "plugins":{
+                          "zoom":{
+                            "pan":{
+                              "enabled":false,
+                              "mode":"xy"
+                            },
+                            "zoom":{
+                              "enabled":false,
+                              "mode":"xy",
+                              "drag":true
+                            }
+                          }
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Growth rate">
+                    <h3><span class="flag-icon flag-icon-fr flag-icon-smaller"></span> France</h3>
+                    <h4>Case growth rate</h4>
+                    <canvas data-chart="line" data-chart-src="data/rate-france.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(255, 13, 204)"
+                          },
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel": {
+                                "display": true,
+                                "labelString": "Growth rate",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+            </section>
+            <section id="germany">
+                <section>
+                    <h3><span class="flag-icon flag-icon-de flag-icon-smaller"></span> Germany</h3>
+                    <h4>Quickest detection</h4>
+                    <canvas data-chart="line" data-chart-src="data/test-germany.csv">
+                    <!--
+                    {
+                       "data":{
+                          "datasets":[
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(255, 13, 204)",
+                                "yAxisID":"y-axis-right"
+                             },
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(97, 191, 38)",
+                                "yAxisID":"y-axis-left"
+                             }
+                          ]
+                       },
+                       "options":{
+                          "responsive":"true",
+                          "elements":{
+                             "point":{
+                                "radius":0
+                             }
+                          },
+                          "scales":{
+                             "xAxes":[
+                                {
+                                   "type":"time",
+                                   "time":{
+                                      "unit":"month",
+                                      "parser":"YYYY-MM-DD"
+                                   }
+                                }
+                             ],
+                             "yAxes":[
+                                {
+                                   "type":"logarithmic",
+                                   "display":true,
+                                   "position":"left",
+                                   "id":"y-axis-left",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "False Alarm Risk",
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   }
+                                },
+                                {
+                                   "type":"linear",
+                                   "display":true,
+                                   "position":"right",
+                                   "id":"y-axis-right",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "Delay [days]",
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   },
+                                   "gridLines":{
+                                      "drawOnChartArea":false
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   }
+                                }
+                             ]
+                          }
+                       }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Cases">
+                    <!-- <h3><span class="flag-icon flag-icon-it flag-icon-squared"></span> Italy</h3> -->
+                    <h3><span class="flag-icon flag-icon-de flag-icon-smaller"></span> Germany</h3>
+                    <h4>COVID-19 Cases</h4>
+                    <canvas data-chart="line" data-chart-src="data/data-germany.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          },
+                          {
+                            "backgroundColor":"#b0b0b5",
+                            "borderColor":"rgba(97, 191, 38, 0)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel":{
+                                "display":true,
+                                "labelString":"Cases",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        },
+                        "plugins":{
+                          "zoom":{
+                            "pan":{
+                              "enabled":false,
+                              "mode":"xy"
+                            },
+                            "zoom":{
+                              "enabled":false,
+                              "mode":"xy",
+                              "drag":true
+                            }
+                          }
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Growth rate">
+                    <h3><span class="flag-icon flag-icon-de flag-icon-smaller"></span> Germany</h3>
+                    <h4>Case growth rate</h4>
+                    <canvas data-chart="line" data-chart-src="data/rate-germany.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(255, 13, 204)"
+                          },
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel": {
+                                "display": true,
+                                "labelString": "Growth rate",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+            </section>
+            <section id="hungary">
+                <section>
+                    <h3><span class="flag-icon flag-icon-hu flag-icon-smaller"></span> Hungary</h3>
+                    <h4>Quickest detection</h4>
+                    <canvas data-chart="line" data-chart-src="data/test-hungary.csv">
+                    <!--
+                    {
+                       "data":{
+                          "datasets":[
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(255, 13, 204)",
+                                "yAxisID":"y-axis-right"
+                             },
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(97, 191, 38)",
+                                "yAxisID":"y-axis-left"
+                             }
+                          ]
+                       },
+                       "options":{
+                          "responsive":"true",
+                          "elements":{
+                             "point":{
+                                "radius":0
+                             }
+                          },
+                          "scales":{
+                             "xAxes":[
+                                {
+                                   "type":"time",
+                                   "time":{
+                                      "unit":"month",
+                                      "parser":"YYYY-MM-DD"
+                                   }
+                                }
+                             ],
+                             "yAxes":[
+                                {
+                                   "type":"logarithmic",
+                                   "display":true,
+                                   "position":"left",
+                                   "id":"y-axis-left",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "False Alarm Risk",
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   }
+                                },
+                                {
+                                   "type":"linear",
+                                   "display":true,
+                                   "position":"right",
+                                   "id":"y-axis-right",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "Delay [days]",
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   },
+                                   "gridLines":{
+                                      "drawOnChartArea":false
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   }
+                                }
+                             ]
+                          }
+                       }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Cases">
+                    <!-- <h3><span class="flag-icon flag-icon-it flag-icon-squared"></span> Italy</h3> -->
+                    <h3><span class="flag-icon flag-icon-hu flag-icon-smaller"></span> Hungary</h3>
+                    <h4>COVID-19 Cases</h4>
+                    <canvas data-chart="line" data-chart-src="data/data-hungary.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          },
+                          {
+                            "backgroundColor":"#b0b0b5",
+                            "borderColor":"rgba(97, 191, 38, 0)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel":{
+                                "display":true,
+                                "labelString":"Cases",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        },
+                        "plugins":{
+                          "zoom":{
+                            "pan":{
+                              "enabled":false,
+                              "mode":"xy"
+                            },
+                            "zoom":{
+                              "enabled":false,
+                              "mode":"xy",
+                              "drag":true
+                            }
+                          }
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Growth rate">
+                    <h3><span class="flag-icon flag-icon-hu flag-icon-smaller"></span> Hungary</h3>
+                    <h4>Case growth rate</h4>
+                    <canvas data-chart="line" data-chart-src="data/rate-hungary.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(255, 13, 204)"
+                          },
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel": {
+                                "display": true,
+                                "labelString": "Growth rate",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+            </section>
+            <section id="italy">
+                <section>
+                    <h3><span class="flag-icon flag-icon-it flag-icon-smaller"></span> Italy</h3>
+                    <h4>Quickest detection</h4>
+                    <canvas data-chart="line" data-chart-src="data/test-italy.csv">
+                    <!--
+                    {
+                       "data":{
+                          "datasets":[
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(255, 13, 204)",
+                                "yAxisID":"y-axis-right"
+                             },
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(97, 191, 38)",
+                                "yAxisID":"y-axis-left"
+                             }
+                          ]
+                       },
+                       "options":{
+                          "responsive":"true",
+                          "elements":{
+                             "point":{
+                                "radius":0
+                             }
+                          },
+                          "scales":{
+                             "xAxes":[
+                                {
+                                   "type":"time",
+                                   "time":{
+                                      "unit":"month",
+                                      "parser":"YYYY-MM-DD"
+                                   }
+                                }
+                             ],
+                             "yAxes":[
+                                {
+                                   "type":"logarithmic",
+                                   "display":true,
+                                   "position":"left",
+                                   "id":"y-axis-left",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "False Alarm Risk",
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   }
+                                },
+                                {
+                                   "type":"linear",
+                                   "display":true,
+                                   "position":"right",
+                                   "id":"y-axis-right",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "Delay [days]",
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   },
+                                   "gridLines":{
+                                      "drawOnChartArea":false
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   }
+                                }
+                             ]
+                          }
+                       }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Cases">
+                    <!-- <h3><span class="flag-icon flag-icon-it flag-icon-squared"></span> Italy</h3> -->
+                    <h3><span class="flag-icon flag-icon-it flag-icon-smaller"></span> Italy</h3>
+                    <h4>COVID-19 Cases</h4>
+                    <canvas data-chart="line" data-chart-src="data/data-italy.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          },
+                          {
+                            "backgroundColor":"#b0b0b5",
+                            "borderColor":"rgba(97, 191, 38, 0)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel":{
+                                "display":true,
+                                "labelString":"Cases",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        },
+                        "plugins":{
+                          "zoom":{
+                            "pan":{
+                              "enabled":false,
+                              "mode":"xy"
+                            },
+                            "zoom":{
+                              "enabled":false,
+                              "mode":"xy",
+                              "drag":true
+                            }
+                          }
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Growth rate">
+                    <h3><span class="flag-icon flag-icon-it flag-icon-smaller"></span> Italy</h3>
+                    <h4>Case growth rate</h4>
+                    <canvas data-chart="line" data-chart-src="data/rate-italy.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(255, 13, 204)"
+                          },
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel": {
+                                "display": true,
+                                "labelString": "Growth rate",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+            </section>
+            <section id="netherlands">
+                <section>
+                    <h3><span class="flag-icon flag-icon-nl flag-icon-smaller"></span> Netherlands</h3>
+                    <h4>Quickest detection</h4>
+                    <canvas data-chart="line" data-chart-src="data/test-netherlands.csv">
+                    <!--
+                    {
+                       "data":{
+                          "datasets":[
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(255, 13, 204)",
+                                "yAxisID":"y-axis-right"
+                             },
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(97, 191, 38)",
+                                "yAxisID":"y-axis-left"
+                             }
+                          ]
+                       },
+                       "options":{
+                          "responsive":"true",
+                          "elements":{
+                             "point":{
+                                "radius":0
+                             }
+                          },
+                          "scales":{
+                             "xAxes":[
+                                {
+                                   "type":"time",
+                                   "time":{
+                                      "unit":"month",
+                                      "parser":"YYYY-MM-DD"
+                                   }
+                                }
+                             ],
+                             "yAxes":[
+                                {
+                                   "type":"logarithmic",
+                                   "display":true,
+                                   "position":"left",
+                                   "id":"y-axis-left",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "False Alarm Risk",
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   }
+                                },
+                                {
+                                   "type":"linear",
+                                   "display":true,
+                                   "position":"right",
+                                   "id":"y-axis-right",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "Delay [days]",
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   },
+                                   "gridLines":{
+                                      "drawOnChartArea":false
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   }
+                                }
+                             ]
+                          }
+                       }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Cases">
+                    <!-- <h3><span class="flag-icon flag-icon-it flag-icon-squared"></span> Italy</h3> -->
+                    <h3><span class="flag-icon flag-icon-nl flag-icon-smaller"></span> Netherlands</h3>
+                    <h4>COVID-19 Cases</h4>
+                    <canvas data-chart="line" data-chart-src="data/data-netherlands.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          },
+                          {
+                            "backgroundColor":"#b0b0b5",
+                            "borderColor":"rgba(97, 191, 38, 0)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel":{
+                                "display":true,
+                                "labelString":"Cases",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        },
+                        "plugins":{
+                          "zoom":{
+                            "pan":{
+                              "enabled":false,
+                              "mode":"xy"
+                            },
+                            "zoom":{
+                              "enabled":false,
+                              "mode":"xy",
+                              "drag":true
+                            }
+                          }
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Growth rate">
+                    <h3><span class="flag-icon flag-icon-nl flag-icon-smaller"></span> Netherlands</h3>
+                    <h4>Case growth rate</h4>
+                    <canvas data-chart="line" data-chart-src="data/rate-netherlands.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(255, 13, 204)"
+                          },
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel": {
+                                "display": true,
+                                "labelString": "Growth rate",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+            </section>
+            <section id="norway">
+                <section>
+                    <h3><span class="flag-icon flag-icon-no flag-icon-smaller"></span> Norway</h3>
+                    <h4>Quickest detection</h4>
+                    <canvas data-chart="line" data-chart-src="data/test-norway.csv">
+                    <!--
+                    {
+                       "data":{
+                          "datasets":[
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(255, 13, 204)",
+                                "yAxisID":"y-axis-right"
+                             },
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(97, 191, 38)",
+                                "yAxisID":"y-axis-left"
+                             }
+                          ]
+                       },
+                       "options":{
+                          "responsive":"true",
+                          "elements":{
+                             "point":{
+                                "radius":0
+                             }
+                          },
+                          "scales":{
+                             "xAxes":[
+                                {
+                                   "type":"time",
+                                   "time":{
+                                      "unit":"month",
+                                      "parser":"YYYY-MM-DD"
+                                   }
+                                }
+                             ],
+                             "yAxes":[
+                                {
+                                   "type":"logarithmic",
+                                   "display":true,
+                                   "position":"left",
+                                   "id":"y-axis-left",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "False Alarm Risk",
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   }
+                                },
+                                {
+                                   "type":"linear",
+                                   "display":true,
+                                   "position":"right",
+                                   "id":"y-axis-right",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "Delay [days]",
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   },
+                                   "gridLines":{
+                                      "drawOnChartArea":false
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   }
+                                }
+                             ]
+                          }
+                       }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Cases">
+                    <!-- <h3><span class="flag-icon flag-icon-it flag-icon-squared"></span> Italy</h3> -->
+                    <h3><span class="flag-icon flag-icon-no flag-icon-smaller"></span> Norway</h3>
+                    <h4>COVID-19 Cases</h4>
+                    <canvas data-chart="line" data-chart-src="data/data-norway.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          },
+                          {
+                            "backgroundColor":"#b0b0b5",
+                            "borderColor":"rgba(97, 191, 38, 0)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel":{
+                                "display":true,
+                                "labelString":"Cases",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        },
+                        "plugins":{
+                          "zoom":{
+                            "pan":{
+                              "enabled":false,
+                              "mode":"xy"
+                            },
+                            "zoom":{
+                              "enabled":false,
+                              "mode":"xy",
+                              "drag":true
+                            }
+                          }
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Growth rate">
+                    <h3><span class="flag-icon flag-icon-no flag-icon-smaller"></span> Norway</h3>
+                    <h4>Case growth rate</h4>
+                    <canvas data-chart="line" data-chart-src="data/rate-norway.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(255, 13, 204)"
+                          },
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel": {
+                                "display": true,
+                                "labelString": "Growth rate",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+            </section>
+            <section id="portugal">
+                <section>
+                    <h3><span class="flag-icon flag-icon-pt flag-icon-smaller"></span> Portugal</h3>
+                    <h4>Quickest detection</h4>
+                    <canvas data-chart="line" data-chart-src="data/test-portugal.csv">
+                    <!--
+                    {
+                       "data":{
+                          "datasets":[
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(255, 13, 204)",
+                                "yAxisID":"y-axis-right"
+                             },
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(97, 191, 38)",
+                                "yAxisID":"y-axis-left"
+                             }
+                          ]
+                       },
+                       "options":{
+                          "responsive":"true",
+                          "elements":{
+                             "point":{
+                                "radius":0
+                             }
+                          },
+                          "scales":{
+                             "xAxes":[
+                                {
+                                   "type":"time",
+                                   "time":{
+                                      "unit":"month",
+                                      "parser":"YYYY-MM-DD"
+                                   }
+                                }
+                             ],
+                             "yAxes":[
+                                {
+                                   "type":"logarithmic",
+                                   "display":true,
+                                   "position":"left",
+                                   "id":"y-axis-left",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "False Alarm Risk",
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   }
+                                },
+                                {
+                                   "type":"linear",
+                                   "display":true,
+                                   "position":"right",
+                                   "id":"y-axis-right",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "Delay [days]",
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   },
+                                   "gridLines":{
+                                      "drawOnChartArea":false
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   }
+                                }
+                             ]
+                          }
+                       }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Cases">
+                    <!-- <h3><span class="flag-icon flag-icon-it flag-icon-squared"></span> Italy</h3> -->
+                    <h3><span class="flag-icon flag-icon-pt flag-icon-smaller"></span> Portugal</h3>
+                    <h4>COVID-19 Cases</h4>
+                    <canvas data-chart="line" data-chart-src="data/data-portugal.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          },
+                          {
+                            "backgroundColor":"#b0b0b5",
+                            "borderColor":"rgba(97, 191, 38, 0)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel":{
+                                "display":true,
+                                "labelString":"Cases",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        },
+                        "plugins":{
+                          "zoom":{
+                            "pan":{
+                              "enabled":false,
+                              "mode":"xy"
+                            },
+                            "zoom":{
+                              "enabled":false,
+                              "mode":"xy",
+                              "drag":true
+                            }
+                          }
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Growth rate">
+                    <h3><span class="flag-icon flag-icon-pt flag-icon-smaller"></span> Portugal</h3>
+                    <h4>Case growth rate</h4>
+                    <canvas data-chart="line" data-chart-src="data/rate-portugal.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(255, 13, 204)"
+                          },
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel": {
+                                "display": true,
+                                "labelString": "Growth rate",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+            </section>
+            <section id="spain">
+                <section>
+                    <h3><span class="flag-icon flag-icon-es flag-icon-smaller"></span> Spain</h3>
+                    <h4>Quickest detection</h4>
+                    <canvas data-chart="line" data-chart-src="data/test-spain.csv">
+                    <!--
+                    {
+                       "data":{
+                          "datasets":[
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(255, 13, 204)",
+                                "yAxisID":"y-axis-right"
+                             },
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(97, 191, 38)",
+                                "yAxisID":"y-axis-left"
+                             }
+                          ]
+                       },
+                       "options":{
+                          "responsive":"true",
+                          "elements":{
+                             "point":{
+                                "radius":0
+                             }
+                          },
+                          "scales":{
+                             "xAxes":[
+                                {
+                                   "type":"time",
+                                   "time":{
+                                      "unit":"month",
+                                      "parser":"YYYY-MM-DD"
+                                   }
+                                }
+                             ],
+                             "yAxes":[
+                                {
+                                   "type":"logarithmic",
+                                   "display":true,
+                                   "position":"left",
+                                   "id":"y-axis-left",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "False Alarm Risk",
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   }
+                                },
+                                {
+                                   "type":"linear",
+                                   "display":true,
+                                   "position":"right",
+                                   "id":"y-axis-right",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "Delay [days]",
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   },
+                                   "gridLines":{
+                                      "drawOnChartArea":false
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   }
+                                }
+                             ]
+                          }
+                       }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Cases">
+                    <!-- <h3><span class="flag-icon flag-icon-it flag-icon-squared"></span> Italy</h3> -->
+                    <h3><span class="flag-icon flag-icon-es flag-icon-smaller"></span> Spain</h3>
+                    <h4>COVID-19 Cases</h4>
+                    <canvas data-chart="line" data-chart-src="data/data-spain.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          },
+                          {
+                            "backgroundColor":"#b0b0b5",
+                            "borderColor":"rgba(97, 191, 38, 0)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel":{
+                                "display":true,
+                                "labelString":"Cases",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        },
+                        "plugins":{
+                          "zoom":{
+                            "pan":{
+                              "enabled":false,
+                              "mode":"xy"
+                            },
+                            "zoom":{
+                              "enabled":false,
+                              "mode":"xy",
+                              "drag":true
+                            }
+                          }
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Growth rate">
+                    <h3><span class="flag-icon flag-icon-es flag-icon-smaller"></span> Spain</h3>
+                    <h4>Case growth rate</h4>
+                    <canvas data-chart="line" data-chart-src="data/rate-spain.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(255, 13, 204)"
+                          },
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel": {
+                                "display": true,
+                                "labelString": "Growth rate",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+            </section>
+            <section id="united-kingdom">
+                <section>
+                    <h3><span class="flag-icon flag-icon-gb flag-icon-smaller"></span> United Kingdom</h3>
+                    <h4>Quickest detection</h4>
+                    <canvas data-chart="line" data-chart-src="data/test-united-kingdom.csv">
+                    <!--
+                    {
+                       "data":{
+                          "datasets":[
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(255, 13, 204)",
+                                "yAxisID":"y-axis-right"
+                             },
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(97, 191, 38)",
+                                "yAxisID":"y-axis-left"
+                             }
+                          ]
+                       },
+                       "options":{
+                          "responsive":"true",
+                          "elements":{
+                             "point":{
+                                "radius":0
+                             }
+                          },
+                          "scales":{
+                             "xAxes":[
+                                {
+                                   "type":"time",
+                                   "time":{
+                                      "unit":"month",
+                                      "parser":"YYYY-MM-DD"
+                                   }
+                                }
+                             ],
+                             "yAxes":[
+                                {
+                                   "type":"logarithmic",
+                                   "display":true,
+                                   "position":"left",
+                                   "id":"y-axis-left",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "False Alarm Risk",
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   }
+                                },
+                                {
+                                   "type":"linear",
+                                   "display":true,
+                                   "position":"right",
+                                   "id":"y-axis-right",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "Delay [days]",
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   },
+                                   "gridLines":{
+                                      "drawOnChartArea":false
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   }
+                                }
+                             ]
+                          }
+                       }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Cases">
+                    <!-- <h3><span class="flag-icon flag-icon-it flag-icon-squared"></span> Italy</h3> -->
+                    <h3><span class="flag-icon flag-icon-gb flag-icon-smaller"></span> United Kingdom</h3>
+                    <h4>COVID-19 Cases</h4>
+                    <canvas data-chart="line" data-chart-src="data/data-united-kingdom.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          },
+                          {
+                            "backgroundColor":"#b0b0b5",
+                            "borderColor":"rgba(97, 191, 38, 0)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel":{
+                                "display":true,
+                                "labelString":"Cases",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        },
+                        "plugins":{
+                          "zoom":{
+                            "pan":{
+                              "enabled":false,
+                              "mode":"xy"
+                            },
+                            "zoom":{
+                              "enabled":false,
+                              "mode":"xy",
+                              "drag":true
+                            }
+                          }
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Growth rate">
+                    <h3><span class="flag-icon flag-icon-gb flag-icon-smaller"></span> United Kingdom</h3>
+                    <h4>Case growth rate</h4>
+                    <canvas data-chart="line" data-chart-src="data/rate-united-kingdom.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(255, 13, 204)"
+                          },
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel": {
+                                "display": true,
+                                "labelString": "Growth rate",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+            </section>
+            <section id="united-states-of-america">
+                <section>
+                    <h3><span class="flag-icon flag-icon-us flag-icon-smaller"></span> United States of America</h3>
+                    <h4>Quickest detection</h4>
+                    <canvas data-chart="line" data-chart-src="data/test-united-states-of-america.csv">
+                    <!--
+                    {
+                       "data":{
+                          "datasets":[
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(255, 13, 204)",
+                                "yAxisID":"y-axis-right"
+                             },
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(97, 191, 38)",
+                                "yAxisID":"y-axis-left"
+                             }
+                          ]
+                       },
+                       "options":{
+                          "responsive":"true",
+                          "elements":{
+                             "point":{
+                                "radius":0
+                             }
+                          },
+                          "scales":{
+                             "xAxes":[
+                                {
+                                   "type":"time",
+                                   "time":{
+                                      "unit":"month",
+                                      "parser":"YYYY-MM-DD"
+                                   }
+                                }
+                             ],
+                             "yAxes":[
+                                {
+                                   "type":"logarithmic",
+                                   "display":true,
+                                   "position":"left",
+                                   "id":"y-axis-left",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "False Alarm Risk",
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   }
+                                },
+                                {
+                                   "type":"linear",
+                                   "display":true,
+                                   "position":"right",
+                                   "id":"y-axis-right",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "Delay [days]",
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   },
+                                   "gridLines":{
+                                      "drawOnChartArea":false
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   }
+                                }
+                             ]
+                          }
+                       }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Cases">
+                    <!-- <h3><span class="flag-icon flag-icon-it flag-icon-squared"></span> Italy</h3> -->
+                    <h3><span class="flag-icon flag-icon-us flag-icon-smaller"></span> United States of America</h3>
+                    <h4>COVID-19 Cases</h4>
+                    <canvas data-chart="line" data-chart-src="data/data-united-states-of-america.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          },
+                          {
+                            "backgroundColor":"#b0b0b5",
+                            "borderColor":"rgba(97, 191, 38, 0)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel":{
+                                "display":true,
+                                "labelString":"Cases",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        },
+                        "plugins":{
+                          "zoom":{
+                            "pan":{
+                              "enabled":false,
+                              "mode":"xy"
+                            },
+                            "zoom":{
+                              "enabled":false,
+                              "mode":"xy",
+                              "drag":true
+                            }
+                          }
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Growth rate">
+                    <h3><span class="flag-icon flag-icon-us flag-icon-smaller"></span> United States of America</h3>
+                    <h4>Case growth rate</h4>
+                    <canvas data-chart="line" data-chart-src="data/rate-united-states-of-america.csv">
+                    <!--
+                    {
+                      "data":{
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(255, 13, 204)"
+                          },
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel": {
+                                "display": true,
+                                "labelString": "Growth rate",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+            </section>
+        </div>
+    </div>
+
+    <script src="app.reveal.js"></script>
+
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://unpkg.com/topojson@3"></script>
+    
+    <script src="worldmap.js"></script>
+
+</body>
+</html>
