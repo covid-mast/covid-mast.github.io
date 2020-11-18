@@ -1,0 +1,13 @@
+* text=auto
+
+# Text files
+# ==========
+*.txt   text
+*.json  text
+*.js    text
+
+# Source files
+# ==========
+*.md    text diff=markdown
+*.css   text diff=css
+*.html  text diff=html
