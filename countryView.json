@@ -1,0 +1,74 @@
+{
+  "countries": [
+    {
+      "id": "albania",
+      "name": "Albania",
+      "code": "al"
+    },
+    {
+      "id": "austria",
+      "name": "Austria",
+      "code": "at"
+    },
+    {
+      "id": "belgium",
+      "name": "Belgium",
+      "code": "be"
+    },
+    {
+      "id": "canada",
+      "name": "Canada",
+      "code": "ca"
+    },
+    {
+      "id": "france",
+      "name": "France",
+      "code": "fr"
+    },
+    {
+      "id": "germany",
+      "name": "Germany",
+      "code": "de"
+    },
+    {
+      "id": "hungary",
+      "name": "Hungary",
+      "code": "hu"
+    },
+    {
+      "id": "italy",
+      "name": "Italy",
+      "code": "it"
+    },
+    {
+      "id": "netherlands",
+      "name": "Netherlands",
+      "code": "nl"
+    },
+    {
+      "id": "norway",
+      "name": "Norway",
+      "code": "no"
+    },
+    {
+      "id": "portugal",
+      "name": "Portugal",
+      "code": "pt"
+    },
+    {
+      "id": "spain",
+      "name": "Spain",
+      "code": "es"
+    },
+    {
+      "id": "united-kingdom",
+      "name": "United Kingdom",
+      "code": "gb"
+    },
+    {
+      "id": "united-states-of-america",
+      "name": "United States of America",
+      "code": "us"
+    }
+  ]
+}
