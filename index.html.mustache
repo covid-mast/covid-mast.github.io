@@ -1,0 +1,343 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>MAST: COVID-19 pandemic onset test</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css">
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="reveal.js/dist/theme/league.css" id="theme">
+    <link rel="stylesheet" href="flag-icon-css/css/flag-icon.min.css">
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" id="highlight-theme">
+    <!-- <link rel="stylesheet" href="reveal.js/plugin/highlight/zenburn.css"> -->
+
+    <!-- spinner css -->
+    <link rel="stylesheet" href="spinner.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+
+    <script src="reveal.js-plugins/menu/menu.js"></script>
+    
+    <!-- moment.js (required by chart.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+
+    <!-- chart.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script> -->
+    <script src="reveal.js-plugins/chart/Chart.min.js"></script>
+    <script src="reveal.js-plugins/chart/plugin.js"></script>
+
+    <!-- chhart.js pan/zoom -->
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
+
+    <!-- ribbon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
+
+    <style>
+        path {
+          stroke: white;
+          stroke-width: 0.25px;
+          fill: grey;
+        }
+        path.enabled {
+            /*fill: #4e79a7;*/
+            /*fill: #71e9f4;*/
+            fill: #53ADB5;
+        }
+        .svg-container {
+            display: inline-block;
+            position: relative;
+            width: 100%;
+            vertical-align: top;
+            overflow: hidden;
+        }
+        .svg-content {
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .flag-icon-squared {
+          border-radius: 50%;
+        }
+        .flag-icon-smaller {
+          width: 1em;
+        }
+        .github-fork-ribbon::before{
+          /* gray */
+          background-color: #6d6d6d;
+          
+          /* red */
+          /*background-color: #aa0000; */
+
+          /* orange */
+          /*background-color: #ff9900; */
+
+          /* green */
+          /*background-color: #007200;*/
+        }
+        .reveal .home-button {
+            position: fixed;
+            left: 60px;
+            bottom: 30px;
+            z-index: 30;
+            font-size: 24px;
+        }
+    </style>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R18JN09679"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-R18JN09679');
+    </script>
+</head>
+<body>
+    <a class="github-fork-ribbon" href="https://www.researchgate.net/publication/346039076_Quickest_Detection_of_Critical_COVID-19_Phases_When_Should_Restrictive_Measures_Be_Taken" data-ribbon="Read the preprint" title="Read the preprint">Read the preprint</a>
+    <div class="reveal">
+      <div style="" id="loadingDiv" class="reveal-viewport">
+        <div class="loader"></div>
+      </div>
+        <div class="home-button">
+          <a href="#/">
+            <i class="fas fa-home"></i>
+          </a>
+        </div>
+        <div class="slides">
+            <section>
+                <!-- <div class="fig-container" data-file="worldmap.html"></div> -->
+                <h3 style="margin-bottom:0px;">COVID-19 Pandemic Onset Test</h3>
+                <h4>MAST: Mean-Agnostic Sequential Test</h4>
+                <div id="worldmap" class="svg-container"></svg>
+            </section>
+            {{#countries}}
+            <section id="{{id}}">
+                <section>
+                    <h3><span class="flag-icon flag-icon-{{code}} flag-icon-smaller"></span> {{name}}</h3>
+                    <h4>Quickest detection</h4>
+                    <canvas data-chart="line">
+{{charts.test.values}}
+<!--
+                    {
+                       "data":{
+                          "labels": {{ &charts.test.labels }},
+                          "datasets":[
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(255, 13, 204)",
+                                "yAxisID":"y-axis-right"
+                             },
+                             {
+                                "backgroundColor":"rgba(97, 191, 38, 0)",
+                                "borderColor":"rgb(97, 191, 38)",
+                                "yAxisID":"y-axis-left"
+                             }
+                          ]
+                       },
+                       "options":{
+                          "responsive":"true",
+                          "elements":{
+                             "point":{
+                                "radius":0
+                             }
+                          },
+                          "scales":{
+                             "xAxes":[
+                                {
+                                   "type":"time",
+                                   "time":{
+                                      "unit":"month",
+                                      "parser":"YYYY-MM-DD"
+                                   }
+                                }
+                             ],
+                             "yAxes":[
+                                {
+                                   "type":"logarithmic",
+                                   "display":true,
+                                   "position":"left",
+                                   "id":"y-axis-left",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "False Alarm Risk",
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(97, 191, 38)"
+                                   }
+                                },
+                                {
+                                   "type":"linear",
+                                   "display":true,
+                                   "position":"right",
+                                   "id":"y-axis-right",
+                                   "scaleLabel": {
+                                        "display":true,
+                                        "labelString": "Delay [days]",
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   },
+                                   "gridLines":{
+                                      "drawOnChartArea":false
+                                   },
+                                   "ticks": {
+                                        "fontColor": "rgb(255, 13, 204)"
+                                   }
+                                }
+                             ]
+                          }
+                       }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Cases">
+                    <!-- <h3><span class="flag-icon flag-icon-it flag-icon-squared"></span> Italy</h3> -->
+                    <h3><span class="flag-icon flag-icon-{{code}} flag-icon-smaller"></span> {{name}}</h3>
+                    <h4>COVID-19 Cases</h4>
+                    <canvas data-chart="line">
+{{charts.data.values}}
+<!--
+                    {
+                      "data":{
+                        "labels": {{ &charts.data.labels }},
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          },
+                          {
+                            "backgroundColor":"#b0b0b5",
+                            "borderColor":"rgba(97, 191, 38, 0)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel":{
+                                "display":true,
+                                "labelString":"Cases",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        },
+                        "plugins":{
+                          "zoom":{
+                            "pan":{
+                              "enabled":false,
+                              "mode":"xy"
+                            },
+                            "zoom":{
+                              "enabled":false,
+                              "mode":"xy",
+                              "drag":true
+                            }
+                          }
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+                <section data-menu-title="Growth rate">
+                    <h3><span class="flag-icon flag-icon-{{code}} flag-icon-smaller"></span> {{name}}</h3>
+                    <h4>Case growth rate</h4>
+                    <canvas data-chart="line">
+{{charts.rate.values}}
+<!--
+                    {
+                      "data":{
+                        "labels": {{ &charts.rate.labels }},
+                        "datasets":[
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(255, 13, 204)"
+                          },
+                          {
+                            "backgroundColor":"rgba(97, 191, 38, 0)",
+                            "borderColor":"rgb(97, 191, 38)"
+                          }
+                        ]
+                      },
+                      "options":{
+                        "responsive":"true",
+                        "elements":{
+                          "point":{
+                            "radius":0
+                          }
+                        },
+                        "scales":{
+                          "xAxes":[
+                            {
+                              "type":"time",
+                              "time":{
+                                "unit":"month",
+                                "parser":"YYYY-MM-DD"
+                              }
+                            }
+                          ],
+                          "yAxes":[
+                            {
+                              "scaleLabel": {
+                                "display": true,
+                                "labelString": "Growth rate",
+                                "fontColor": "rgb(97, 191, 38)"
+                              },
+                              "ticks": {
+                                "fontColor": "rgb(97, 191, 38)"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                    -->
+                    </canvas>
+                </section>
+            </section>
+            {{/countries}}
+        </div>
+    </div>
+
+    <script src="app.reveal.js"></script>
+
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://unpkg.com/topojson@3"></script>
+    
+    <script src="worldmap.js"></script>
+
+</body>
+</html>
